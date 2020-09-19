@@ -12,7 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
   declarations: [
     AppComponent,
     NavigationComponent,
-
   ],
   imports: [
     BrowserModule,
