@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
   }
 
   public submit(): void {
-    if(this.registrationForm.value.password !== this.registrationForm.value.reenteredPassword) {
+    if (this.registrationForm.value.password !== this.registrationForm.value.reenteredPassword) {
       console.log('Password does not match.');
       return;
     }
