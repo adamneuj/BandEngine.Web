@@ -1,3 +1,32 @@
 <h1>
     Register
 </h1>
+<br>
+<form class="registration-form">
+    <div class="form-group">
+        <mat-form-field class="full-width">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="ExampleUsername" required>
+            <mat-hint class="text-warning">*Required</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="example@bandengine.com" required>
+            <mat-hint class="text-warning">*Required</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput required>
+            <mat-hint class="text-warning">*Required</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Re-Enter Password</mat-label>
+            <input matInput required>
+            <mat-hint class="text-warning">*Required</mat-hint>
+        </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+</form>

@@ -1,5 +1,5 @@
 export class RegisterModel {
-    public Username: string;
-    public Email: string;
-    public Password: string;
+    public username: string;
+    public email: string;
+    public password: string;
 }
