@@ -18,14 +18,14 @@
 
         <mat-form-field class="full-width">
             <mat-label>Password</mat-label>
-            <input matInput type="password" formControlName="password" required>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
             <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             <mat-hint class="text-warning">*Required</mat-hint>
         </mat-form-field>
 
         <mat-form-field class="full-width">
             <mat-label>Re-Enter Password</mat-label>
-            <input matInput type="password" formControlName="reenteredPassword" required>
+            <input matInput [type]="hideReenter ? 'password' : 'text'" formControlName="reenteredPassword" required>
             <mat-icon matSuffix (click)="hideReenter = !hideReenter">{{hideReenter ? 'visibility_off' : 'visibility'}}</mat-icon>
             <mat-hint class="text-warning">*Required</mat-hint>
         </mat-form-field>
