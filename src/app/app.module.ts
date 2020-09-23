@@ -18,6 +18,7 @@ import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
+import { RegistrationFormComponent } from './register/registration-form/registration-form.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { RegisterComponent } from './register/register.component';
     PageNotFoundComponent,
     HomeComponent,
     RegisterComponent,
+    RegistrationFormComponent,
   ],
   imports: [
     BrowserModule,
