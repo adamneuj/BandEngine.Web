@@ -1,5 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { RegisterModel } from '../../models/auth/register-model';
 import { UserService } from '../../services/user/user.service';
 
@@ -8,14 +10,15 @@ import { UserService } from '../../services/user/user.service';
   templateUrl: './registration-form.component.html',
   styleUrls: ['./registration-form.component.css']
 })
-export class RegistrationFormComponent implements OnInit {
-
-  newUser: RegisterModel;
-  registrationForm: FormGroup;
-  @Output() registrationErrorChange: EventEmitter<string[]> = new EventEmitter<string[]>();
-
-  hidePassword: boolean;
-  hideReenter: boolean;
+export class RegistrationFormComponent implements OnDestroy, OnInit {
+  private ngUnsubscribe = new Subject();
+  public newUser: RegisterModel;
+  public status: string[];
+  public message: string[];
+  public registrationForm: FormGroup;
+  @Output() public registrationErrorChange = new EventEmitter<string[]>();
+  public hidePassword: boolean;
+  public hideReenter: boolean;
 
   passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -34,6 +37,12 @@ export class RegistrationFormComponent implements OnInit {
     this.hideReenter = true;
     this.createForm();
   }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
 
   createForm(): void {
     this.registrationForm = this.formBuilder.group({
@@ -86,12 +95,18 @@ export class RegistrationFormComponent implements OnInit {
       return;
     }
     else {
-      console.log(this.registrationForm);
       this.newUser.username = this.registrationForm.value.userName;
       this.newUser.email = this.registrationForm.value.email;
       this.newUser.password = this.registrationForm.value.password;
-      const $response = this.userService.registerUser(this.newUser).subscribe();
-      console.log($response);
+      this.userService.registerUser(this.newUser).pipe(takeUntil(this.ngUnsubscribe)).subscribe(data => {
+        this.message = data.map(x => x.Message );
+        this.status = data.map(x =>  x.Status );
+      }, error => {
+        this.message = error.error.message;
+        const errors = [];
+        errors.push(this.message.toString());
+        this.registrationErrorChange.emit(errors);
+      });
       return;
     }
   }
