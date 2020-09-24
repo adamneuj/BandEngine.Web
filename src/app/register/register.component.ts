@@ -16,7 +16,6 @@ export class RegisterComponent implements OnInit {
   }
 
   getErrors(errors): void {
-    console.log(errors);
     this.errors = errors;
   }
 

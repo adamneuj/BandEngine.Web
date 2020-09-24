@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RegisterModel } from '../../models/auth/register-model';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-registration-form',
@@ -8,6 +9,7 @@ import { RegisterModel } from '../../models/auth/register-model';
   styleUrls: ['./registration-form.component.css']
 })
 export class RegistrationFormComponent implements OnInit {
+
   newUser: RegisterModel;
   registrationForm: FormGroup;
   @Output() registrationErrorChange: EventEmitter<string[]> = new EventEmitter<string[]>();
@@ -17,7 +19,7 @@ export class RegistrationFormComponent implements OnInit {
 
   passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService) {
    }
 
   ngOnInit(): void {
@@ -57,7 +59,6 @@ export class RegistrationFormComponent implements OnInit {
             break;
           }
           case 'password': {
-            // tslint:disable-next-line: max-line-length
             errors.push('*Not a valid Password.');
             errors.push('*Passwords need:');
             errors.push('- 1 Uppercase Letter,');
@@ -77,19 +78,20 @@ export class RegistrationFormComponent implements OnInit {
       const errors = this.findErrors();
       errors.splice(0, 0, 'Re-entered Password does not match.');
       this.registrationErrorChange.emit(errors);
-      console.log('Emit event');
       return;
     }
     else if (!this.registrationForm.valid) {
       const errors = this.findErrors();
       this.registrationErrorChange.emit(errors);
-      console.log('Emit event');
       return;
     }
     else {
-      const errors = this.findErrors();
-      this.registrationErrorChange.emit(errors);
       console.log(this.registrationForm);
+      this.newUser.username = this.registrationForm.value.userName;
+      this.newUser.email = this.registrationForm.value.email;
+      this.newUser.password = this.registrationForm.value.password;
+      const $response = this.userService.registerUser(this.newUser).subscribe();
+      console.log($response);
       return;
     }
   }
