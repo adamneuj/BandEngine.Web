@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 import { NavigationComponent } from './navigation/navigation.component';
 import { LoginComponent } from './login/login.component';
@@ -19,6 +20,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { RegistrationFormComponent } from './register/registration-form/registration-form.component';
+import { RegistrationErrorsComponent } from './register/registration-errors/registration-errors.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { RegistrationFormComponent } from './register/registration-form/registra
     HomeComponent,
     RegisterComponent,
     RegistrationFormComponent,
+    RegistrationErrorsComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,8 @@ import { RegistrationFormComponent } from './register/registration-form/registra
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

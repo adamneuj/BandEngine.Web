@@ -1,0 +1,9 @@
+.inline-component {
+    display: flex;
+    flex-flow: row wrap;
+    /* align-items: center; */
+  }
+
+  .component-margin {
+      margin: 5px 25px;
+  }

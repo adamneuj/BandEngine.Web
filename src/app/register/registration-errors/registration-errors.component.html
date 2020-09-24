@@ -1,0 +1,9 @@
+<div *ngIf='errors'>
+    <mat-card class="registration-errors">
+        <h2>Errors</h2>
+        <div *ngFor='let error of errors'>
+            {{error}}
+            <br>
+        </div>
+    </mat-card>
+</div>

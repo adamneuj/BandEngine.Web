@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RegisterModel } from '../../models/auth/register-model';
 
@@ -8,15 +8,12 @@ import { RegisterModel } from '../../models/auth/register-model';
   styleUrls: ['./registration-form.component.css']
 })
 export class RegistrationFormComponent implements OnInit {
-  newUser: RegisterModel = new RegisterModel();
+  newUser: RegisterModel;
   registrationForm: FormGroup;
+  @Output() registrationErrorChange: EventEmitter<string[]> = new EventEmitter<string[]>();
 
   hidePassword: boolean;
   hideReenter: boolean;
-  invalidUsername: boolean;
-  invalidEmail: boolean;
-  invalidPassword: boolean;
-  invalidReentered: boolean;
 
   passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -45,57 +42,55 @@ export class RegistrationFormComponent implements OnInit {
     });
   }
 
-  findInvalidControls(): string[] {
-    const invalid = [];
+  findErrors(): string[] {
+    const errors = [];
     const controls = this.registrationForm.controls;
     for (const name in controls){
       if (controls[name].invalid){
-        invalid.push(name);
-      }
-    }
-    return invalid;
-  }
-
-  public submit(): void {
-    this.setInvalidsToFalse();
-    if (this.registrationForm.value.password !== this.registrationForm.value.reenteredPassword) {
-      this.invalidReentered = true;
-      console.log('Password does not match.');
-      return;
-    }
-    else if (!this.registrationForm.valid) {
-      const invalidControls = this.findInvalidControls();
-      for (const key in invalidControls) {
-        if (Object.prototype.hasOwnProperty.call(invalidControls, key)) {
-          const name = invalidControls[key];
-          switch (name){
-            case 'userName': {
-              this.invalidUsername = true;
-              break;
-            }
-            case 'email': {
-              this.invalidEmail = true;
-              break;
-            }
-            case 'password': {
-              this.invalidPassword = true;
-              break;
-            }
+        switch (name){
+          case 'userName': {
+            errors.push('*Not a valid UserName');
+            break;
+          }
+          case 'email': {
+            errors.push('*Not a valid Email Address');
+            break;
+          }
+          case 'password': {
+            // tslint:disable-next-line: max-line-length
+            errors.push('*Not a valid Password.');
+            errors.push('*Passwords need:');
+            errors.push('- 1 Uppercase Letter,');
+            errors.push('- 1 Lowercase Letter,');
+            errors.push('- 1 Number,');
+            errors.push('- 1 Special Character.');
+            break;
           }
         }
       }
+    }
+    return errors;
+  }
+
+  public submit(): void {
+    if (this.registrationForm.value.password !== this.registrationForm.value.reenteredPassword) {
+      const errors = this.findErrors();
+      errors.splice(0, 0, 'Re-entered Password does not match.');
+      this.registrationErrorChange.emit(errors);
+      console.log('Emit event');
+      return;
+    }
+    else if (!this.registrationForm.valid) {
+      const errors = this.findErrors();
+      this.registrationErrorChange.emit(errors);
+      console.log('Emit event');
       return;
     }
     else {
+      const errors = this.findErrors();
+      this.registrationErrorChange.emit(errors);
       console.log(this.registrationForm);
       return;
     }
-  }
-
-  setInvalidsToFalse(): void {
-    this.invalidUsername = false;
-    this.invalidEmail = false;
-    this.invalidPassword = false;
-    this.invalidReentered = false;
   }
 }

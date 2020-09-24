@@ -2,4 +2,14 @@
     Register
 </h1>
     <br>
-<app-registration-form></app-registration-form>
+<div class="container">
+    <div class="row inline-component">
+        <div class="col-md-6">
+            <app-registration-form (registrationErrorChange)='getErrors($event)'></app-registration-form>
+        </div>
+        <br>
+        <div class="col-md-6 component-margin">
+            <app-registration-errors [errors]='errors'></app-registration-errors>            
+        </div>
+    </div>
+</div>
