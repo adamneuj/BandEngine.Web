@@ -42,7 +42,7 @@ export class LoginFormComponent implements OnInit {
             break;
           }
           case 'password': {
-            errors.push('*Please enter a valid Password')
+            errors.push('*Please enter a valid Password');
             errors.push('');
             errors.push('*Passwords have:');
             errors.push('- 1 Uppercase Letter,');
