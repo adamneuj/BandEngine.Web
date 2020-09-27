@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
+  errors: string[];
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  getErrors(errors): void {
+    this.errors = errors;
   }
 
 }

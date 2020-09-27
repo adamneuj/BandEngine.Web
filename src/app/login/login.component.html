@@ -1,6 +1,14 @@
 <h1>
     Login
 </h1>
-<div>
-    <app-login-form></app-login-form>
+<div class="container">
+    <div class="row inline-component">
+        <div class="col-md-6">
+            <app-login-form (loginErrorChange)='getErrors($event)'></app-login-form>
+        </div>
+        <br>
+        <div class="col-md-6 component-margin">
+            <app-login-errors [errors]='errors'></app-login-errors>            
+        </div>
+    </div>
 </div>
