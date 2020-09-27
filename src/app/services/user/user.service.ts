@@ -9,6 +9,8 @@ import {catchError, tap, map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UserService {
+  public userLoggedIn = false;
+
   private AuthenticationUrl = 'http://localhost:5000/api/authenticate/';
   private Register = 'register';
 
@@ -21,18 +23,5 @@ export class UserService {
         return throwError(error);
       }));
   }
-
-  // errorHandler(error): Observable<string[]> {
-  //   let errors = [];
-  //   let errorMessage = '';
-  //   if (error.error instanceof ErrorEvent) {
-  //     errorMessage = 'Error: ${error.error.message}';
-  //   } else {
-  //     errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-  //   }
-  //   console.log(errorMessage);
-  //   return throwError(errors);
-  // }
-
 
 }
